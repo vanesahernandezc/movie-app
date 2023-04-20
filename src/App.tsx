@@ -1,33 +1,34 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import { Movies } from "./components/Movies";
+import noResponse from "./mocks/no-results.json";
+import Response from "./mocks/with-results.json";
 
 function App() {
-  const [count, setCount] = useState(0);
-
+  const movies = Response.Search;
+  const mappedMovies = movies?.map((movie) => ({
+    id: movie.imdbID,
+    title: movie.Title,
+    year: movie.Year,
+    poster: movie.Poster,
+  }));
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Movie Mania</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="page">
+      <header>
+        <h1> Movie Mania</h1>
+        <form action="form">
+          <label>
+            Type the movie name to search:
+            <input
+              type="text"
+              placeholder="Avengers, Stars Wars, Lilo & Stich..."
+            />
+            <button type="submit">Search</button>
+          </label>
+        </form>
+      </header>
+      <main>
+        <Movies movies={mappedMovies} />
+      </main>
     </div>
   );
 }
