@@ -34,13 +34,13 @@ function useSearch() {
   return { search, updateSearch, error };
 }
 function App() {
-  const { movies } = useMovies();
   const { search, updateSearch, error } = useSearch();
+  const { movies, getMovies } = useMovies({ search });
   const [query, setQuery] = useState("");
   const isFirstInput = useRef(true);
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log({ search });
+    getMovies();
   };
   const handleChange = (event: any) => {
     updateSearch(event.target.value);
