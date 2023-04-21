@@ -35,7 +35,7 @@ function useSearch() {
 }
 function App() {
   const { search, updateSearch, error } = useSearch();
-  const { movies, getMovies } = useMovies({ search });
+  const { movies, getMovies, loading } = useMovies({ search });
   const [query, setQuery] = useState("");
   const isFirstInput = useRef(true);
   const handleSubmit = (event: any) => {
@@ -61,9 +61,7 @@ function App() {
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </header>
-      <main>
-        <Movies movies={movies} />
-      </main>
+      <main>{loading ? <p>Cargando...</p> : <Movies movies={movies} />}</main>
     </div>
   );
 }
