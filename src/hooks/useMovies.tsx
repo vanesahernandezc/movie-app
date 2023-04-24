@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
 import { searchMovies } from "../services/movies";
 
-export function useMovies({ search }: any) {
-  const [movies, setMovies] = useState([]);
+export function useMovies({ search, sort }: any) {
+  const [movies, setMovies] = useState([] as any[]);
   const previousSearch = useRef(search);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,12 +14,15 @@ export function useMovies({ search }: any) {
       previousSearch.current = search;
       const newMovies = await searchMovies({ search });
       setMovies(newMovies);
-    } catch (e: unknown) {
-      setError(e.message);
+    } catch (event: unknown) {
+      setError(event.message);
     } finally {
       setLoading(false);
     }
   };
+  const sortedMovies = sort
+    ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+    : movies;
 
-  return { movies, getMovies, loading };
+  return { movies: sortedMovies, getMovies, loading };
 }
